@@ -53,3 +53,4 @@ jobs:
         with:
           name: react-build
           path: build
+          retention-days: 7

@@ -1,0 +1,75 @@
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: ["Build"]
+    types:
+      - completed
+
+jobs:
+
+  deploy-dev:
+    if: github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.head_branch == 'master'
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Download Artifact
+        uses: dawidd6/action-download-artifact@v3
+        with:
+          workflow: build.yml
+          name: react-build
+          path: build
+
+      - name: Deploy To Azure Dev
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: react-frontend-dev
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_DEV }}
+          package: build
+
+  # deploy-it:
+  #   if: github.event.workflow_run.conclusion == 'success' &&
+  #       github.event.workflow_run.head_branch == 'release'
+
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+
+  #     - name: Download Artifact
+  #       uses: dawidd6/action-download-artifact@v3
+  #       with:
+  #         workflow: build.yml
+  #         name: react-build
+  #         path: build
+
+  #     - name: Deploy To Azure IT
+  #       uses: azure/webapps-deploy@v3
+  #       with:
+  #         app-name: react-frontend-it
+  #         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_IT }}
+  #         package: build
+
+  deploy-prod:
+    if: github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.head_branch == 'main'
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Download Artifact
+        uses: dawidd6/action-download-artifact@v3
+        with:
+          workflow: build.yml
+          name: react-build
+          path: build
+
+      - name: Deploy To Azure Prod
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: react-frontend-prod
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_PROD }}
+          package: build
