@@ -49,8 +49,9 @@ jobs:
       - name: Upload Artifact
 
         uses: actions/upload-artifact@v4
-        
+
         with:
           name: react-build
-          path: build
+          # path: dist        as build in package.json is vite and creates a dist folder
+          path: dist
           retention-days: 7
