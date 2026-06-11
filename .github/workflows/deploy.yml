@@ -15,6 +15,8 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    environment: DEV
+
     steps:
 
       - name: Download Artifact
@@ -23,6 +25,10 @@ jobs:
           workflow: build.yml
           name: react-build
           path: build
+
+      # - name: Deploy
+
+      #   run: echo "Deploying DEV"
 
       - name: Deploy To Azure Dev
         uses: azure/webapps-deploy@v3
@@ -59,6 +65,8 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    environment: PROD
+
     steps:
 
       - name: Download Artifact
@@ -68,9 +76,13 @@ jobs:
           name: react-build
           path: build
 
-      - name: Deploy To Azure Prod
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: react-frontend-prod
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_PROD }}
-          package: build
+      # - name: Deploy To Azure Prod
+      #   uses: azure/webapps-deploy@v3
+      #   with:
+      #     app-name: react-frontend-prod
+      #     publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_PROD }}
+      #     package: build
+
+      - name: Deploy
+
+        run: echo "Deploying PROD"
