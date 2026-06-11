@@ -26,16 +26,17 @@ jobs:
           name: react-build
           path: build
 
-      # - name: Deploy
 
-      #   run: echo "Deploying DEV"
+      # - name: Deploy To Azure Dev
+      #   uses: azure/webapps-deploy@v3
+      #   with:
+      #     app-name: react-frontend-dev
+      #     publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_DEV }}
+      #     package: build
 
-      - name: Deploy To Azure Dev
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: react-frontend-dev
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_DEV }}
-          package: build
+      - name: Deploy
+
+        run: echo "Deploying DEV"
 
   # deploy-it:
   #   if: github.event.workflow_run.conclusion == 'success' &&
