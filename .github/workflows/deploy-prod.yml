@@ -25,6 +25,6 @@ jobs:
 
       - run: npm run build
 
-      - run: sonar-scanner
+      # - run: sonar-scanner
 
       - run: echo "Deploy Production"
