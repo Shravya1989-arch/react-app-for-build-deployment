@@ -1,0 +1,30 @@
+name: Deploy PROD
+
+on:
+
+  push:
+
+    branches:
+      - main
+
+jobs:
+
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    environment: PROD
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+
+      - run: npm ci
+
+      - run: npm run build
+
+      - run: sonar-scanner
+
+      - run: echo "Deploy Production"
