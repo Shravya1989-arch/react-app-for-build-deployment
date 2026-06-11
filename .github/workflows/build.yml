@@ -1,10 +1,11 @@
-name: React Build
+name: Build
 
 on:
   pull_request:
   push:
     branches:
       - master
+      - main
 
 jobs:
 
@@ -44,3 +45,13 @@ jobs:
       - name: Build
 
         run: npm run build
+
+      - name: Upload Artifact
+
+        uses: actions/upload-artifact@v4
+
+        with:
+          name: react-build
+          # path: dist        as build in package.json is vite and creates a dist folder
+          path: dist
+          retention-days: 7
